@@ -7,6 +7,7 @@ import android.os.Handler
 import android.os.Looper
 import com.dokter.ai.R
 import com.dokter.ai.databinding.ActivitySplashBinding
+import com.facebook.stetho.Stetho
 
 class SplashActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySplashBinding
@@ -16,6 +17,8 @@ class SplashActivity : AppCompatActivity() {
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+
+        Stetho.initializeWithDefaults(this)
 
         Handler(Looper.getMainLooper()).postDelayed({
             startActivity(Intent(this, OverviewActivity::class.java))
