@@ -5,18 +5,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.dokter.ai.R
-import com.dokter.ai.databinding.ActivityBmicalculateBinding
-import com.dokter.ai.databinding.ActivityHealthDiagnosisBinding
 import com.dokter.ai.databinding.FragmentDashboardBinding
-import com.dokter.ai.databinding.FragmentMedicalMapBinding
 import com.dokter.ai.view.BMICalculateActivity
-import com.dokter.ai.view.HealthDiagnosisActivity
-import com.dokter.ai.view.MainActivity
+import com.dokter.ai.view.ChooseSymptomActivity
 import com.dokter.ai.viewmodel.DashboardViewModel
 
 class DashboardFragment : Fragment() {
@@ -42,7 +36,7 @@ class DashboardFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.bDiagnosis.setOnClickListener {
-            startActivity(Intent(context, HealthDiagnosisActivity::class.java))
+            startActivity(Intent(context, ChooseSymptomActivity::class.java))
         }
 
         binding.bBMI.setOnClickListener {

@@ -9,9 +9,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dokterai">
-        <activity android:name=".view.BMICalculateActivity"></activity>
+        <activity android:name=".view.HealthDiagnosisActivity"></activity>
+        <activity android:name=".view.BMICalculateActivity" />
         <activity android:name=".view.ResultDiagnosisActivity" />
-        <activity android:name=".view.HealthDiagnosisActivity" />
+        <activity android:name=".view.ChooseSymptomActivity" />
         <activity android:name=".view.LoginActivity" />
         <activity android:name=".view.OverviewActivity" />
         <activity
