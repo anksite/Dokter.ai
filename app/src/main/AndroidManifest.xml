@@ -9,10 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Dokterai">
+<<<<<<< HEAD
         <activity android:name=".view.BMICalculateActivity"/>
 
+=======
+        <activity android:name=".view.HealthDiagnosisActivity"></activity>
+        <activity android:name=".view.BMICalculateActivity" />
+>>>>>>> 4eb5db3bc0282afdd3cc78fb617440ca04128294
         <activity android:name=".view.ResultDiagnosisActivity" />
-        <activity android:name=".view.HealthDiagnosisActivity" />
+        <activity android:name=".view.ChooseSymptomActivity" />
         <activity android:name=".view.LoginActivity" />
         <activity android:name=".view.slider.OverviewActivity" />
         <activity

@@ -7,6 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+<<<<<<< HEAD
     <color name="navy_doktorAI">#03326A</color>
     <color name="hijau_doktorAI">#2EC486</color>
+=======
+    <color name="green">#2EC486</color>
+    <color name="colorFont">#03326A</color>
+    <color name="grey">#BDBDBD</color>
+>>>>>>> 4eb5db3bc0282afdd3cc78fb617440ca04128294
 </resources>
