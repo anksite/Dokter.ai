@@ -4,27 +4,35 @@ import android.app.Dialog
 import android.app.SearchManager
 import android.content.Context
 import android.content.DialogInterface
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
+import androidx.activity.viewModels
 import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.GridLayoutManager
 import com.dokter.ai.R
+import com.dokter.ai.data.DataSymptom
 import com.dokter.ai.databinding.ActivityChooseSymptomBinding
 import com.dokter.ai.databinding.SheetDetailSymptomBinding
 import com.dokter.ai.util.Cons
+import com.dokter.ai.view.viewmodel.VMChooseSymptom
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
+import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
+@AndroidEntryPoint
 class ChooseSymptomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChooseSymptomBinding
     lateinit var mAdapter: RecyclerAdapterSymptom
     val mListSymptom = mutableListOf<DataSymptom>()
-    val mAllSymptom = getListSymptom()
+    lateinit var mAllSymptom : List<DataSymptom>
     var mIndexSelected = -1
+
+    val vmChooseSymptom:VMChooseSymptom by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,12 +40,21 @@ class ChooseSymptomActivity : AppCompatActivity() {
         setContentView(binding.root)
         title = "Pilih Gejala"
 
-        mListSymptom.addAll(mAllSymptom)
         mAdapter = RecyclerAdapterSymptom(mListSymptom, iRvClick)
 
         binding.rvSymptom.apply {
             layoutManager = GridLayoutManager(applicationContext, 2)
             adapter = mAdapter
+        }
+
+        vmChooseSymptom.let {
+            it.getSymptom()
+            it.listSymptom.observe({lifecycle}, {
+                binding.pbLoad.visibility = View.GONE
+                mAllSymptom = it
+                mListSymptom.addAll(mAllSymptom)
+                mAdapter.notifyDataSetChanged()
+            })
         }
     }
 
@@ -74,14 +91,14 @@ class ChooseSymptomActivity : AppCompatActivity() {
 
     fun getListSymptom(): List<DataSymptom>{
         val listSymptom = mutableListOf<DataSymptom>()
-        listSymptom.apply {
-            add(DataSymptom(1, "Batuk", "Batuk deskripsi", "null", false))
-            add(DataSymptom(2, "Kejang", "Kejang deskripsi", "null", false))
-            add(DataSymptom(3, "Capek", "Capek deskripsi", "null", false))
-            add(DataSymptom(4, "Kesemutan", "Kesemutan deskripsi", "null", false))
-            add(DataSymptom(5, "Nyeri", "Nyeri deskripsi", "null", false))
-            add(DataSymptom(6, "Memar", "Memar deskripsi", "null", false))
-        }
+//        listSymptom.apply {
+//            add(DataSymptom(1, "Batuk", "Batuk deskripsi", "null", false))
+//            add(DataSymptom(2, "Kejang", "Kejang deskripsi", "null", false))
+//            add(DataSymptom(3, "Capek", "Capek deskripsi", "null", false))
+//            add(DataSymptom(4, "Kesemutan", "Kesemutan deskripsi", "null", false))
+//            add(DataSymptom(5, "Nyeri", "Nyeri deskripsi", "null", false))
+//            add(DataSymptom(6, "Memar", "Memar deskripsi", "null", false))
+//        }
         return listSymptom
     }
 
@@ -127,7 +144,7 @@ class ChooseSymptomActivity : AppCompatActivity() {
                     }
 
                     bChoose.setOnClickListener {
-
+                        startActivity(Intent(context, HealthDiagnosisActivity::class.java))
                     }
                 }
             }

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.dokter.ai.R
+import com.dokter.ai.data.DataSymptom
 import com.dokter.ai.databinding.RowListSymptomBinding
 
 class RecyclerAdapterSymptom(val listSymptom: List<DataSymptom>, val iRvClick: IRvClick): RecyclerView.Adapter<RecyclerAdapterSymptom.VHSymptom>() {

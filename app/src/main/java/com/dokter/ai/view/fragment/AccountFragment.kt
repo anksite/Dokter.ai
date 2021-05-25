@@ -6,18 +6,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.dokter.ai.R
 import com.dokter.ai.databinding.FragmentAccountBinding
-import com.dokter.ai.databinding.FragmentMedicalMapBinding
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
 import com.dokter.ai.view.LoginActivity
-import com.dokter.ai.view.MainActivity
-import com.dokter.ai.viewmodel.NotificationsViewModel
+import com.dokter.ai.view.viewmodel.NotificationsViewModel
 import com.firebase.ui.auth.AuthUI
 
 class AccountFragment : Fragment() {

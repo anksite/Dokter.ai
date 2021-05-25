@@ -11,7 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.dokter.ai.databinding.FragmentDashboardBinding
 import com.dokter.ai.view.BMICalculateActivity
 import com.dokter.ai.view.ChooseSymptomActivity
-import com.dokter.ai.viewmodel.DashboardViewModel
+import com.dokter.ai.view.viewmodel.DashboardViewModel
 
 class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding

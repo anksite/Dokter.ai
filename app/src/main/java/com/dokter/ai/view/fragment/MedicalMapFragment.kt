@@ -4,13 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.dokter.ai.R
 import com.dokter.ai.databinding.FragmentMedicalMapBinding
-import com.dokter.ai.viewmodel.HomeViewModel
+import com.dokter.ai.view.viewmodel.HomeViewModel
 
 class MedicalMapFragment : Fragment() {
     private lateinit var binding: FragmentMedicalMapBinding
