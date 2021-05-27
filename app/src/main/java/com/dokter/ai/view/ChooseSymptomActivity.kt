@@ -5,34 +5,45 @@ import android.app.SearchManager
 import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.bumptech.glide.RequestManager
 import com.dokter.ai.R
 import com.dokter.ai.data.DataSymptom
 import com.dokter.ai.databinding.ActivityChooseSymptomBinding
 import com.dokter.ai.databinding.SheetDetailSymptomBinding
 import com.dokter.ai.util.Cons
+import com.dokter.ai.util.SpHelp
 import com.dokter.ai.view.viewmodel.VMChooseSymptom
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class ChooseSymptomActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChooseSymptomBinding
     lateinit var mAdapter: RecyclerAdapterSymptom
     val mListSymptom = mutableListOf<DataSymptom>()
-    lateinit var mAllSymptom : List<DataSymptom>
+    lateinit var mAllSymptom: List<DataSymptom>
     var mIndexSelected = -1
 
-    val vmChooseSymptom:VMChooseSymptom by viewModels()
+    val vmChooseSymptom: VMChooseSymptom by viewModels()
+
+    @Inject
+    lateinit var mGlide: RequestManager
+
+    @Inject
+    lateinit var mSpHelp: SpHelp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,17 +54,41 @@ class ChooseSymptomActivity : AppCompatActivity() {
         mAdapter = RecyclerAdapterSymptom(mListSymptom, iRvClick)
 
         binding.rvSymptom.apply {
-            layoutManager = GridLayoutManager(applicationContext, 2)
+            layoutManager = StaggeredGridLayoutManager(2, RecyclerView.VERTICAL)
             adapter = mAdapter
         }
 
-        vmChooseSymptom.let {
+        vmChooseSymptom.let { it ->
             it.getSymptom()
-            it.listSymptom.observe({lifecycle}, {
+            it.listSymptom.observe({ lifecycle }, {
                 binding.pbLoad.visibility = View.GONE
                 mAllSymptom = it
                 mListSymptom.addAll(mAllSymptom)
                 mAdapter.notifyDataSetChanged()
+            })
+
+            it.prepareState.observe({ lifecycle }, {
+                when (it) {
+                    Cons.STATE_LOADING -> {
+                        binding.pbLoad.visibility = View.VISIBLE
+                    }
+
+                    Cons.STATE_SUCCESS -> {
+                        binding.pbLoad.visibility = View.GONE
+                        val i = Intent(this, HealthDiagnosisActivity::class.java)
+                        val arrayList = ArrayList<DataSymptom>()
+                        arrayList.addAll(mAllSymptom)
+                        Log.d("arrayList", "$arrayList")
+                        i.putExtra(Cons.ALL_SYMPTOM, arrayList)
+                        startActivity(i)
+                    }
+
+                    Cons.STATE_ERROR -> Toast.makeText(
+                        this,
+                        "Jaringan bermasalah, Silakan coba lagi",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
             })
         }
     }
@@ -79,7 +114,7 @@ class ChooseSymptomActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
 
-    fun searchSymptom(key: String){
+    fun searchSymptom(key: String) {
         val result = mAllSymptom.filter {
             it.name.toLowerCase(Locale.ROOT).contains(key)
         }
@@ -89,27 +124,14 @@ class ChooseSymptomActivity : AppCompatActivity() {
         mAdapter.notifyDataSetChanged()
     }
 
-    fun getListSymptom(): List<DataSymptom>{
-        val listSymptom = mutableListOf<DataSymptom>()
-//        listSymptom.apply {
-//            add(DataSymptom(1, "Batuk", "Batuk deskripsi", "null", false))
-//            add(DataSymptom(2, "Kejang", "Kejang deskripsi", "null", false))
-//            add(DataSymptom(3, "Capek", "Capek deskripsi", "null", false))
-//            add(DataSymptom(4, "Kesemutan", "Kesemutan deskripsi", "null", false))
-//            add(DataSymptom(5, "Nyeri", "Nyeri deskripsi", "null", false))
-//            add(DataSymptom(6, "Memar", "Memar deskripsi", "null", false))
-//        }
-        return listSymptom
-    }
-
-    val iRvClick = object :RecyclerAdapterSymptom.IRvClick{
+    val iRvClick = object : RecyclerAdapterSymptom.IRvClick {
         override fun onItemClick(position: Int) {
             mIndexSelected = position
 
             val bundle = Bundle()
             bundle.putParcelable(Cons.DATA_SYMPTOM, mListSymptom[mIndexSelected])
 
-            val dialog = BottomSheetSymptomDetail(iSheetCancel)
+            val dialog = BottomSheetSymptomDetail(iSheetCancel, iSheetChoose, mGlide)
             dialog.arguments = bundle
             dialog.show(supportFragmentManager, dialog.tag)
 
@@ -118,7 +140,7 @@ class ChooseSymptomActivity : AppCompatActivity() {
         }
     }
 
-    val iSheetCancel = object:BottomSheetSymptomDetail.ISheetCancel{
+    val iSheetCancel = object : BottomSheetSymptomDetail.ISheetCancel {
         override fun onCancel() {
             mListSymptom[mIndexSelected].selected = false
             mAdapter.notifyItemChanged(mIndexSelected)
@@ -126,8 +148,19 @@ class ChooseSymptomActivity : AppCompatActivity() {
         }
     }
 
-    class BottomSheetSymptomDetail(val iSheetCancel: ISheetCancel): BottomSheetDialogFragment(){
+    val iSheetChoose = object : BottomSheetSymptomDetail.ISheetChoose {
+        override fun onChoose(idSymptom: String) {
+            vmChooseSymptom.prepareDiagnosis(idSymptom)
+        }
+    }
+
+    class BottomSheetSymptomDetail(
+        val iSheetCancel: ISheetCancel,
+        val iSheetChoose: ISheetChoose,
+        val glide: RequestManager
+    ) : BottomSheetDialogFragment() {
         lateinit var mDialog: Dialog
+
         override fun setupDialog(dialog: Dialog, style: Int) {
             mDialog = dialog
             val dataSymptom = arguments?.getParcelable<DataSymptom>(Cons.DATA_SYMPTOM)
@@ -136,7 +169,9 @@ class ChooseSymptomActivity : AppCompatActivity() {
 
             dataSymptom?.let {
                 binding.apply {
+                    val idSymptom = it.id
                     tvSymptom.text = it.name
+                    glide.load(it.img).centerCrop().into(ivSymptom)
                     tvDesc.text = it.desc
 
                     ivClose.setOnClickListener {
@@ -144,7 +179,7 @@ class ChooseSymptomActivity : AppCompatActivity() {
                     }
 
                     bChoose.setOnClickListener {
-                        startActivity(Intent(context, HealthDiagnosisActivity::class.java))
+                        iSheetChoose.onChoose(idSymptom)
                     }
                 }
             }
@@ -157,8 +192,12 @@ class ChooseSymptomActivity : AppCompatActivity() {
             iSheetCancel.onCancel()
         }
 
-        interface ISheetCancel{
+        interface ISheetCancel {
             fun onCancel()
+        }
+
+        interface ISheetChoose {
+            fun onChoose(idSymptom: String)
         }
     }
 }

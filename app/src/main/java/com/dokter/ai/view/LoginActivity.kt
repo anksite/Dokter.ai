@@ -11,13 +11,14 @@ import com.dokter.ai.util.SpHelp
 import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.IdpResponse
 import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
-    val mSpHelp by lazy {
-        SpHelp(this)
-    }
+    @Inject lateinit var mSpHelp : SpHelp
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +59,7 @@ class LoginActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().currentUser?.let {
                     val userId = it.uid
                     Log.d("onActivityResult", "userId: $userId")
-                    mSpHelp.writeString(Cons.USER_ID, userId)
+                    mSpHelp.writeString(Cons.ID_USER, userId)
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
                 }

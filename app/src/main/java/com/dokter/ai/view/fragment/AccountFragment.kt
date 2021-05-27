@@ -15,10 +15,15 @@ import com.dokter.ai.util.SpHelp
 import com.dokter.ai.view.LoginActivity
 import com.dokter.ai.view.viewmodel.NotificationsViewModel
 import com.firebase.ui.auth.AuthUI
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AccountFragment : Fragment() {
     private lateinit var binding: FragmentAccountBinding
     private lateinit var notificationsViewModel: NotificationsViewModel
+
+    @Inject lateinit var mSpHelp: SpHelp
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +54,7 @@ class AccountFragment : Fragment() {
         }
 
         context?.let {
-            Log.d("onViewCreated", SpHelp(it).getString(Cons.USER_ID))
+            Log.d("onViewCreated", mSpHelp.getString(Cons.ID_USER))
         }
 
     }

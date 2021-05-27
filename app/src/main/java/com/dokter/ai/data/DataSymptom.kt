@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class DataSymptom(
-    val id: Int,
+    val id: String,
     val name: String,
     val desc: String,
     val img: String,
