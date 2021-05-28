@@ -20,8 +20,8 @@ class VMResultDiagnosis @Inject constructor(val repositoryDiagnosis: RepositoryD
     @Inject lateinit var interfaceApi: InterfaceApi
     @Inject lateinit var mSpHelp: SpHelp
 
-    val mDisease = MutableLiveData<ResponseDisease>()
-    val disease : LiveData<ResponseDisease> = mDisease
+    val mDisease = MutableLiveData<String>()
+    val disease : LiveData<String> = mDisease
 
     val mState = MutableLiveData<String>()
     val state : LiveData<String> = mState

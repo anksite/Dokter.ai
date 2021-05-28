@@ -14,5 +14,8 @@
     <color name="green">#2EC486</color>
     <color name="colorFont">#03326A</color>
     <color name="grey">#BDBDBD</color>
+    <color name="greySoft">#ECECEC</color>
+
+    <color name="red_500">#F44336</color>
 
 </resources>

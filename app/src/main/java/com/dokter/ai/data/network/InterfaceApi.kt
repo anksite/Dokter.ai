@@ -34,5 +34,5 @@ interface InterfaceApi {
     @GET("DokterAIAPI/disease/{idDisease}")
     suspend fun getResultDisease(
         @Path("idDisease") idDisease: String,
-    ): ResponseDisease
+    ): Response<String>
 }

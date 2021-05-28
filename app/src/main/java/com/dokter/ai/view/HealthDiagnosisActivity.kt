@@ -1,12 +1,16 @@
 package com.dokter.ai.view
 
 import android.content.Intent
+import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
+import com.dokter.ai.R
 import com.dokter.ai.data.DataSymptom
 import com.dokter.ai.databinding.ActivityHealthDiagnosisBinding
 import com.dokter.ai.util.Cons
@@ -37,10 +41,20 @@ class HealthDiagnosisActivity : AppCompatActivity() {
         binding.let {
             it.tvYes.setOnClickListener {
                 vmHealthDiagnosis.setAnswerGetQuestion(mIdSymptom, 1)
+                (it as TextView).apply {
+                    background = ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom_selected)
+                    setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+                    setTypeface(null, Typeface.BOLD)
+                }
             }
 
             it.tvNo.setOnClickListener {
                 vmHealthDiagnosis.setAnswerGetQuestion(mIdSymptom, 0)
+                (it as TextView).apply {
+                    background = ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom_selected)
+                    setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+                    setTypeface(null, Typeface.BOLD)
+                }
             }
         }
 
@@ -55,6 +69,7 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                         i.putExtra(Cons.ID_DISEASE, it.disease_id)
                         i.putExtra(Cons.PROBABILITY, it.probability)
                         startActivity(i)
+                        finish()
                     }
                 }
             })
@@ -67,13 +82,39 @@ class HealthDiagnosisActivity : AppCompatActivity() {
 
                     Cons.STATE_SUCCESS -> {
                         binding.pbLoad.visibility = View.GONE
+
+                        binding.tvNo.apply {
+                            background = ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom)
+                            setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
+                            setTypeface(null, Typeface.NORMAL)
+                        }
+
+                        binding.tvYes.apply {
+                            background = ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom)
+                            setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
+                            setTypeface(null, Typeface.NORMAL)
+                        }
                     }
 
-                    Cons.STATE_ERROR -> Toast.makeText(
-                        this,
-                        "Jaringan bermasalah, Silakan coba lagi",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Cons.STATE_ERROR -> {
+                        Toast.makeText(
+                            this,
+                            "Jaringan bermasalah, Silakan coba lagi",
+                            Toast.LENGTH_SHORT
+                        ).show()
+
+                        binding.tvNo.apply {
+                            background = ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom)
+                            setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
+                            setTypeface(null, Typeface.NORMAL)
+                        }
+
+                        binding.tvYes.apply {
+                            background = ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom)
+                            setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
+                            setTypeface(null, Typeface.NORMAL)
+                        }
+                    }
                 }
             })
         }

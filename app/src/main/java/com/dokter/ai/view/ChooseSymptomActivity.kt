@@ -81,6 +81,7 @@ class ChooseSymptomActivity : AppCompatActivity() {
                         Log.d("arrayList", "$arrayList")
                         i.putExtra(Cons.ALL_SYMPTOM, arrayList)
                         startActivity(i)
+                        finish()
                     }
 
                     Cons.STATE_ERROR -> Toast.makeText(

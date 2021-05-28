@@ -79,14 +79,20 @@ class RepositoryDiagnosis() {
         return ResultWrapper.Error
     }
 
-    suspend fun getResultDisease(interfaceApi: InterfaceApi, idDisease: String): ResultWrapper<ResponseDisease> {
+    suspend fun getResultDisease(interfaceApi: InterfaceApi, idDisease: String): ResultWrapper<String> {
         try {
             val result = interfaceApi.getResultDisease(idDisease)
-            return ResultWrapper.Success(result)
+            if (result.isSuccessful) {
+                result.body()?.let {
+                    return ResultWrapper.Success(it)
+                }
+            }
         } catch (e: Exception) {
             e.printStackTrace()
             return ResultWrapper.Error
         }
+
+        return ResultWrapper.Error
     }
 
 }
