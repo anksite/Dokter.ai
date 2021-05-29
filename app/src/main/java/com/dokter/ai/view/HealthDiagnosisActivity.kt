@@ -1,11 +1,13 @@
 package com.dokter.ai.view
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.util.MonthDisplayHelper
+import android.view.LayoutInflater
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -16,9 +18,12 @@ import com.dokter.ai.R
 import com.dokter.ai.data.DataSymptom
 import com.dokter.ai.data.network.ResponseQuestion
 import com.dokter.ai.databinding.ActivityHealthDiagnosisBinding
+import com.dokter.ai.databinding.SheetDisclaimerBinding
+import com.dokter.ai.databinding.SheetExitDiagnosisBinding
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
 import com.dokter.ai.view.viewmodel.VMHealthDiagnosis
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import com.google.gson.JsonObject
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,6 +54,7 @@ class HealthDiagnosisActivity : AppCompatActivity() {
         setContentView(binding.root)
         title = "Diagnosa Penyakit"
 
+        hideView()
         vmHealthDiagnosis.getNextQuestion()
 
         binding.let {
@@ -88,6 +94,7 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                         mDataSymptom = getDataSymptomFromList(it.question_id)
                         tvQuestion.text = mDataSymptom.question
                     } else {
+                        hideView()
                         resultDiagnosis = it
                         val jsonBody = JsonObject()
                         jsonBody.addProperty("id", mSpHelp.getString(Cons.ID_USER))
@@ -107,6 +114,7 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                     }
 
                     Cons.STATE_SUCCESS -> {
+                        showView()
                         binding.pbLoad.visibility = View.GONE
 
                         binding.tvNo.apply {
@@ -154,6 +162,28 @@ class HealthDiagnosisActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        BottomSheetExit().let {
+            it.show(supportFragmentManager, it.tag)
+        }
+    }
+
+    fun hideView(){
+        binding.apply {
+            cvQuestion.visibility = View.GONE
+            tvYes.visibility = View.GONE
+            tvNo.visibility = View.GONE
+        }
+    }
+
+    fun showView(){
+        binding.apply {
+            cvQuestion.visibility = View.VISIBLE
+            tvYes.visibility = View.VISIBLE
+            tvNo.visibility = View.VISIBLE
+        }
+    }
+
     fun getDataSymptomFromList(idQuestion: String): DataSymptom {
         val search = mAllSymptom.filter {
             it.id == idQuestion
@@ -168,5 +198,27 @@ class HealthDiagnosisActivity : AppCompatActivity() {
 
     fun getAccuracy(input: Float): Int{
         return (input*100).toInt()
+    }
+
+    class BottomSheetExit : BottomSheetDialogFragment() {
+        lateinit var mDialog: Dialog
+
+        override fun setupDialog(dialog: Dialog, style: Int) {
+            mDialog = dialog
+            val binding = SheetExitDiagnosisBinding.inflate(LayoutInflater.from(context))
+            binding.ivClose.setOnClickListener {
+                dialog.cancel()
+            }
+
+            binding.bYes.setOnClickListener {
+                activity?.finish()
+            }
+
+            binding.bNo.setOnClickListener {
+                dialog.cancel()
+            }
+
+            dialog.setContentView(binding.root)
+        }
     }
 }

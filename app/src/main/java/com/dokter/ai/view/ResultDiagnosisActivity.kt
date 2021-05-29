@@ -1,7 +1,6 @@
 package com.dokter.ai.view
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
@@ -12,20 +11,18 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.RequestManager
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
-import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
 import com.dokter.ai.R
-import com.dokter.ai.data.DataSymptom
 import com.dokter.ai.data.network.ResponseDisease
 import com.dokter.ai.databinding.ActivityResultDiagnosisBinding
-import com.dokter.ai.databinding.SheetDetailSymptomBinding
 import com.dokter.ai.databinding.SheetDisclaimerBinding
 import com.dokter.ai.util.Cons
+import com.dokter.ai.view.adapter.RecyclerAdapterRecom
 import com.dokter.ai.view.viewmodel.VMResultDiagnosis
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
@@ -38,7 +35,8 @@ class ResultDiagnosisActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResultDiagnosisBinding
 
     val vmResultDiagnosis: VMResultDiagnosis by viewModels()
-    @Inject lateinit var mGlide: RequestManager
+    @Inject
+    lateinit var mGlide: RequestManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,19 +54,28 @@ class ResultDiagnosisActivity : AppCompatActivity() {
         }
 
         vmResultDiagnosis.let { it ->
-            it.disease.observe({lifecycle}, {
+            it.disease.observe({ lifecycle }, {
                 Log.d("Result", "$it")
-                if(it.contains("No Disease Document")){
+                if (it.contains("No Disease Document")) {
                     binding.tvDisease.text = it
                     binding.tvAcc.text = "Tingkat akurasi $probability%"
-                }else {
+                } else {
                     val dataDisease = Gson().fromJson(it, ResponseDisease::class.java)
 
                     binding.apply {
                         tvDisease.text = dataDisease.name
                         tvAcc.text = "Tingkat akurasi $probability%"
                         tvDesc.text = dataDisease.description
-                        tvRecom.text = dataDisease.recomendation.toString()
+
+                        rvRecom.apply {
+                            layoutManager = object : LinearLayoutManager(applicationContext) {
+                                override fun canScrollVertically(): Boolean {
+                                    return false
+                                }
+                            }
+
+                            adapter = RecyclerAdapterRecom(dataDisease.recomendation)
+                        }
 
                         mGlide
                             .load(dataDisease.image)
@@ -101,7 +108,7 @@ class ResultDiagnosisActivity : AppCompatActivity() {
 
             })
 
-            it.state.observe({lifecycle}, {
+            it.state.observe({ lifecycle }, {
                 when (it) {
                     Cons.STATE_LOADING -> {
                         binding.pbLoad.visibility = View.VISIBLE
@@ -109,6 +116,9 @@ class ResultDiagnosisActivity : AppCompatActivity() {
 
                     Cons.STATE_SUCCESS -> {
                         binding.pbLoad.visibility = View.GONE
+                        BottomSheetDisclaimer().let {
+                            it.show(supportFragmentManager, it.tag)
+                        }
                     }
 
                     Cons.STATE_ERROR -> Toast.makeText(
@@ -127,7 +137,7 @@ class ResultDiagnosisActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId){
+        when (item.itemId) {
             R.id.menu_info -> {
                 BottomSheetDisclaimer().let {
                     it.show(supportFragmentManager, it.tag)

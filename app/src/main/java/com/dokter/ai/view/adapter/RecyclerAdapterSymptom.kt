@@ -1,4 +1,4 @@
-package com.dokter.ai.view
+package com.dokter.ai.view.adapter
 
 import android.graphics.Typeface
 import android.view.LayoutInflater

@@ -1,5 +1,6 @@
 package com.dokter.ai.view.fragment
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -11,11 +12,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.RequestManager
 import com.dokter.ai.databinding.FragmentAccountBinding
+import com.dokter.ai.databinding.SheetExitAccountBinding
+import com.dokter.ai.databinding.SheetExitDiagnosisBinding
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
 import com.dokter.ai.view.LoginActivity
+import com.dokter.ai.view.ResultDiagnosisActivity
 import com.dokter.ai.view.viewmodel.NotificationsViewModel
 import com.firebase.ui.auth.AuthUI
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -46,13 +51,8 @@ class AccountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.tvLogout.setOnClickListener {
-            context?.let { ctx ->
-                AuthUI.getInstance()
-                    .signOut(ctx)
-                    .addOnCompleteListener {
-                        startActivity(Intent(context, LoginActivity::class.java))
-                        activity?.finish()
-                    }
+            BottomSheetExit().let {
+                activity?.supportFragmentManager?.let { it1 -> it.show(it1, it.tag) }
             }
         }
 
@@ -65,6 +65,35 @@ class AccountFragment : Fragment() {
                 }
 
             }
+        }
+    }
+
+    class BottomSheetExit : BottomSheetDialogFragment() {
+        lateinit var mDialog: Dialog
+
+        override fun setupDialog(dialog: Dialog, style: Int) {
+            mDialog = dialog
+            val binding = SheetExitAccountBinding.inflate(LayoutInflater.from(context))
+            binding.ivClose.setOnClickListener {
+                dialog.cancel()
+            }
+
+            binding.bYes.setOnClickListener {
+                context?.let { ctx ->
+                    AuthUI.getInstance()
+                        .signOut(ctx)
+                        .addOnCompleteListener {
+                            startActivity(Intent(context, LoginActivity::class.java))
+                            activity?.finish()
+                        }
+                }
+            }
+
+            binding.bNo.setOnClickListener {
+                dialog.cancel()
+            }
+
+            dialog.setContentView(binding.root)
         }
     }
 }

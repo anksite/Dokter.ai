@@ -10,14 +10,16 @@ import com.dokter.ai.data.network.InterfaceApi
 import com.dokter.ai.data.network.ResultWrapper
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-
-class VMChooseSymptom constructor(val repositoryDiagnosis: RepositoryDiagnosis): ViewModel() {
-    lateinit var interfaceApi: InterfaceApi
-    lateinit var mSpHelp: SpHelp
+@HiltViewModel
+class VMChooseSymptom @Inject constructor(val repositoryDiagnosis: RepositoryDiagnosis): ViewModel() {
+    @Inject lateinit var interfaceApi: InterfaceApi
+    @Inject lateinit var mSpHelp: SpHelp
 
     val mListSymptom = MutableLiveData<List<DataSymptom>>()
     val listSymptom : LiveData<List<DataSymptom>> = mListSymptom

@@ -23,6 +23,7 @@ import com.dokter.ai.databinding.ActivityChooseSymptomBinding
 import com.dokter.ai.databinding.SheetDetailSymptomBinding
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
+import com.dokter.ai.view.adapter.RecyclerAdapterSymptom
 import com.dokter.ai.view.viewmodel.VMChooseSymptom
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
