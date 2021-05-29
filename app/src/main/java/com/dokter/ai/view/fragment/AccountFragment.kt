@@ -45,7 +45,7 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.bLogout.setOnClickListener {
+        binding.tvLogout.setOnClickListener {
             context?.let { ctx ->
                 AuthUI.getInstance()
                     .signOut(ctx)

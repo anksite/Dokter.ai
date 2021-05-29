@@ -42,5 +42,15 @@ class MedicalMapFragment : Fragment() {
             val uri = "geo:0,0?q=hospital"
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(uri)))
         }
+
+        binding.tvPuskesmas.setOnClickListener {
+            val uri = "geo:0,0?q=puskesmas"
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(uri)))
+        }
+
+        binding.tvApotek.setOnClickListener {
+            val uri = "geo:0,0?q=apotek"
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(uri)))
+        }
     }
 }
