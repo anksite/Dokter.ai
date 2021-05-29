@@ -14,9 +14,7 @@ class DashboardViewModel : ViewModel() {
     private val _textBMI = MutableLiveData<String>().apply {
         value = "Cek BMI"
     }
-    val textBMI: LiveData<String> = _textBMI
-
-
+    val textBMI: LiveData<String> = _textPeriksa
 
 
 }
