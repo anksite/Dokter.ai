@@ -6,23 +6,27 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import com.dokter.ai.R
+import com.bumptech.glide.RequestManager
 import com.dokter.ai.databinding.FragmentAccountBinding
-import com.dokter.ai.databinding.FragmentMedicalMapBinding
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
 import com.dokter.ai.view.LoginActivity
-import com.dokter.ai.view.MainActivity
-import com.dokter.ai.viewmodel.NotificationsViewModel
+import com.dokter.ai.view.viewmodel.NotificationsViewModel
 import com.firebase.ui.auth.AuthUI
+import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
+@AndroidEntryPoint
 class AccountFragment : Fragment() {
     private lateinit var binding: FragmentAccountBinding
     private lateinit var notificationsViewModel: NotificationsViewModel
+
+    @Inject lateinit var mSpHelp: SpHelp
+    @Inject lateinit var mGlide: RequestManager
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,7 +45,7 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.bLogout.setOnClickListener {
+        binding.tvLogout.setOnClickListener {
             context?.let { ctx ->
                 AuthUI.getInstance()
                     .signOut(ctx)
@@ -52,9 +56,15 @@ class AccountFragment : Fragment() {
             }
         }
 
-        context?.let {
-            Log.d("onViewCreated", SpHelp(it).getString(Cons.USER_ID))
-        }
+        FirebaseAuth.getInstance().currentUser.let{
+            binding.apply {
+                it?.let {
+                    mGlide.load(it.photoUrl).circleCrop().into(this.ivAccount)
+                    this.tvName.text = it.displayName
+                    this.tvEmail.text = it.email
+                }
 
+            }
+        }
     }
 }

@@ -2,10 +2,10 @@
     <string name="app_name">Dokter.ai</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
+    <string name="title_dashboard">Beranda</string>
     <string name="title_notifications">Notifications</string>
-    <string name="map">Map</string>
-    <string name="account">Account</string>
+    <string name="map">Peta</string>
+    <string name="account">Akun</string>
     <string name="search">Search</string>
     <string name="search_hint">Cari Gejala</string>
     <string name="title_activity_detail_news">DetailNewsActivity</string>

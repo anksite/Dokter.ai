@@ -12,9 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.dokter.ai.databinding.FragmentDashboardBinding
 import com.dokter.ai.view.BMICalculateActivity
 import com.dokter.ai.view.ChooseSymptomActivity
+<<<<<<< HEAD
 import com.dokter.ai.view.adapter.DashboardAdapter
 import com.dokter.ai.view.util.DataDummy
 import com.dokter.ai.viewmodel.DashboardViewModel
+=======
+import com.dokter.ai.view.viewmodel.DashboardViewModel
+>>>>>>> 0a1b77178eede4a4134c91cc053cec552d88c7b7
 
 class DashboardFragment : Fragment() {
     private lateinit var binding: FragmentDashboardBinding

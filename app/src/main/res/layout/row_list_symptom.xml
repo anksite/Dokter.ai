@@ -9,8 +9,9 @@
     <TextView
         android:id="@+id/tvSymptom"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/bg_symptom"
+        android:padding="8dp"
         android:gravity="center"
         tools:text="Batuk"
         android:textAppearance="?android:textAppearanceLarge"
