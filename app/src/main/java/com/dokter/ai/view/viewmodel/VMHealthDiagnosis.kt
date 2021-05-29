@@ -1,5 +1,6 @@
 package com.dokter.ai.view.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,10 +8,12 @@ import com.dokter.ai.data.DataMapper
 import com.dokter.ai.data.DataSymptom
 import com.dokter.ai.data.RepositoryDiagnosis
 import com.dokter.ai.data.network.InterfaceApi
+import com.dokter.ai.data.network.InterfaceApiCloud
 import com.dokter.ai.data.network.ResponseQuestion
 import com.dokter.ai.data.network.ResultWrapper
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
+import com.google.gson.JsonObject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -20,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class VMHealthDiagnosis @Inject constructor(val repositoryDiagnosis: RepositoryDiagnosis): ViewModel() {
     @Inject lateinit var interfaceApi: InterfaceApi
+    @Inject lateinit var interfaceApiCloud: InterfaceApiCloud
     @Inject lateinit var mSpHelp: SpHelp
 
     val mQuestion = MutableLiveData<ResponseQuestion>()
@@ -54,6 +58,20 @@ class VMHealthDiagnosis @Inject constructor(val repositoryDiagnosis: RepositoryD
                     is ResultWrapper.Error -> mState.postValue(Cons.STATE_ERROR)
                 }
             }
+        }
+    }
+
+    fun saveHistory(rawJson: JsonObject) {
+        mState.postValue(Cons.STATE_LOADING)
+        ioScope.launch {
+            when(val result = repositoryDiagnosis.saveHistory(interfaceApiCloud,rawJson)){
+                is ResultWrapper.Success -> {
+                    mState.postValue(Cons.STATE_SAVE_HISTORY_SUCCESS)
+                    Log.d("Respon Save History", result.value)
+                }
+                is ResultWrapper.Error -> mState.postValue(Cons.STATE_ERROR)
+            }
+
         }
     }
 }

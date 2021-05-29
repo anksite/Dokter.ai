@@ -1,12 +1,10 @@
 package com.dokter.ai.data
 
 import android.util.Log
-import com.dokter.ai.data.network.InterfaceApi
-import com.dokter.ai.data.network.ResponseDisease
-import com.dokter.ai.data.network.ResponseQuestion
-import com.dokter.ai.data.network.ResultWrapper
+import com.dokter.ai.data.network.*
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
+import com.google.gson.JsonObject
 
 
 class RepositoryDiagnosis() {
@@ -82,6 +80,22 @@ class RepositoryDiagnosis() {
     suspend fun getResultDisease(interfaceApi: InterfaceApi, idDisease: String): ResultWrapper<String> {
         try {
             val result = interfaceApi.getResultDisease(idDisease)
+            if (result.isSuccessful) {
+                result.body()?.let {
+                    return ResultWrapper.Success(it)
+                }
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return ResultWrapper.Error
+        }
+
+        return ResultWrapper.Error
+    }
+
+    suspend fun saveHistory(interfaceApiCloud: InterfaceApiCloud, rawJson: JsonObject): ResultWrapper<String> {
+        try {
+            val result = interfaceApiCloud.saveHistory(rawJson)
             if (result.isSuccessful) {
                 result.body()?.let {
                     return ResultWrapper.Success(it)

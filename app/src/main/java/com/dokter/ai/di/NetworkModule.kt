@@ -1,6 +1,7 @@
 package com.dokter.ai.di
 
 import com.dokter.ai.data.network.InterfaceApi
+import com.dokter.ai.data.network.InterfaceApiCloud
 import com.dokter.ai.util.Cons
 import dagger.Module
 import dagger.Provides
@@ -35,5 +36,16 @@ class NetworkModule {
             .client(client)
             .build()
         return retrofit.create(InterfaceApi::class.java)
+    }
+
+    @Provides
+    fun provideInterfaceApiCloud(client: OkHttpClient): InterfaceApiCloud {
+        val retrofit = Retrofit.Builder()
+            .baseUrl(Cons.BASE_URL_CLOUD)
+            .addConverterFactory(ScalarsConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(client)
+            .build()
+        return retrofit.create(InterfaceApiCloud::class.java)
     }
 }

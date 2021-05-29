@@ -1,20 +1,26 @@
 package com.dokter.ai.view
 
+import android.R
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.RequestOptions
+import com.bumptech.glide.request.target.Target
 import com.dokter.ai.data.network.ResponseDisease
 import com.dokter.ai.databinding.ActivityResultDiagnosisBinding
 import com.dokter.ai.util.Cons
 import com.dokter.ai.view.viewmodel.VMResultDiagnosis
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import dagger.hilt.android.AndroidEntryPoint
-import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -29,6 +35,7 @@ class ResultDiagnosisActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityResultDiagnosisBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        title = "Hasil Diagnosa"
 
         val idDisease = intent.getStringExtra(Cons.ID_DISEASE)
         val probability = intent.getFloatExtra(Cons.PROBABILITY, -1f)
@@ -54,13 +61,32 @@ class ResultDiagnosisActivity : AppCompatActivity() {
                         tvDesc.text = dataDisease.description
                         tvRecom.text = dataDisease.recomendation.toString()
 
-                        try{
-                            mGlide.load(dataDisease.image).into(ivDisease)
-                        }catch (e: Exception){
-                            e.printStackTrace()
-                            ivDisease.visibility = View.GONE
-                            Toast.makeText(applicationContext, "Failed load image", Toast.LENGTH_SHORT).show()
-                        }
+                        mGlide
+                            .load(dataDisease.image)
+                            .listener(object : RequestListener<Drawable?> {
+
+                                override fun onResourceReady(
+                                    resource: Drawable?,
+                                    model: Any?,
+                                    target: com.bumptech.glide.request.target.Target<Drawable?>?,
+                                    dataSource: DataSource?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    TODO("Not yet implemented")
+                                }
+
+                                override fun onLoadFailed(
+                                    e: GlideException?,
+                                    model: Any?,
+                                    target: Target<Drawable?>?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    ivDisease.visibility = View.GONE
+                                    return true
+                                }
+                            })
+                            .into(ivDisease)
+
                     }
                 }
 

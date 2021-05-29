@@ -5,6 +5,7 @@ import android.graphics.Typeface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.MonthDisplayHelper
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -12,11 +13,16 @@ import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
 import com.dokter.ai.R
 import com.dokter.ai.data.DataSymptom
+import com.dokter.ai.data.network.ResponseQuestion
 import com.dokter.ai.databinding.ActivityHealthDiagnosisBinding
 import com.dokter.ai.util.Cons
+import com.dokter.ai.util.SpHelp
 import com.dokter.ai.view.viewmodel.VMHealthDiagnosis
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import javax.inject.Inject
 import kotlin.collections.ArrayList
 
 @AndroidEntryPoint
@@ -31,10 +37,15 @@ class HealthDiagnosisActivity : AppCompatActivity() {
 
     var mIdSymptom = "-1"
 
+    lateinit var resultDiagnosis: ResponseQuestion
+
+    @Inject lateinit var mSpHelp : SpHelp
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHealthDiagnosisBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        title = "Diagnosa Penyakit"
 
         vmHealthDiagnosis.getNextQuestion()
 
@@ -58,6 +69,10 @@ class HealthDiagnosisActivity : AppCompatActivity() {
             }
         }
 
+        binding.clInfo.setOnClickListener {
+
+        }
+
         vmHealthDiagnosis.let {
             it.question.observe({lifecycle}, {
                 with(binding){
@@ -65,11 +80,14 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                         mIdSymptom = it.question_id
                         tvQuestion.text = getQuestionFromList(mIdSymptom)
                     } else {
-                        val i = Intent(applicationContext, ResultDiagnosisActivity::class.java)
-                        i.putExtra(Cons.ID_DISEASE, it.disease_id)
-                        i.putExtra(Cons.PROBABILITY, it.probability)
-                        startActivity(i)
-                        finish()
+                        resultDiagnosis = it
+                        val jsonBody = JsonObject()
+                        jsonBody.addProperty("id", mSpHelp.getString(Cons.ID_USER))
+                        jsonBody.addProperty("symptoms", "mual, pusing, sakit kepala")
+                        jsonBody.addProperty("illness", it.disease_id)
+                        jsonBody.addProperty("akurasi", 98)
+
+                        vmHealthDiagnosis.saveHistory(jsonBody)
                     }
                 }
             })
@@ -114,6 +132,14 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                             setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
                             setTypeface(null, Typeface.NORMAL)
                         }
+                    }
+
+                    Cons.STATE_SAVE_HISTORY_SUCCESS -> {
+                        val i = Intent(applicationContext, ResultDiagnosisActivity::class.java)
+                        i.putExtra(Cons.ID_DISEASE, resultDiagnosis.disease_id)
+                        i.putExtra(Cons.PROBABILITY, resultDiagnosis.probability)
+                        startActivity(i)
+                        finish()
                     }
                 }
             })

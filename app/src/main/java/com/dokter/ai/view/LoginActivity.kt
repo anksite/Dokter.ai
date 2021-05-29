@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.dokter.ai.R
 import com.dokter.ai.databinding.ActivityLoginBinding
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
@@ -24,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         val user = FirebaseAuth.getInstance().currentUser
 
@@ -39,6 +41,8 @@ class LoginActivity : AppCompatActivity() {
                 AuthUI.getInstance()
                     .createSignInIntentBuilder()
                     .setAvailableProviders(providers)
+                    .setLogo(R.drawable.ic_launcher_background) // Set logo drawable
+                    .setTheme(R.style.Theme_Dokterai) // Set theme
                     .build(),
                 RC_SIGN_IN
             )
