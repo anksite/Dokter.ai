@@ -11,7 +11,13 @@ import org.junit.Assert.*
  */
 class ExampleUnitTest {
     @Test
-    fun addition_isCorrect() {
-        assertEquals(4, 2 + 2)
+    fun floatToInt() {
+        assertEquals(98, getIntAccuracy(98.766575f))
+        assertEquals(0, getIntAccuracy(0.766575f))
+    }
+
+    fun getIntAccuracy(input: Float):Int{
+        val result = input.toInt()
+        return result
     }
 }

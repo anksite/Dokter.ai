@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.RequestManager
 import com.dokter.ai.R
 import com.dokter.ai.data.DataSymptom
 import com.dokter.ai.data.network.ResponseQuestion
@@ -35,11 +36,12 @@ class HealthDiagnosisActivity : AppCompatActivity() {
         intent.getParcelableArrayListExtra(Cons.ALL_SYMPTOM)
     }
 
-    var mIdSymptom = "-1"
+    lateinit var mDataSymptom: DataSymptom
 
     lateinit var resultDiagnosis: ResponseQuestion
 
     @Inject lateinit var mSpHelp : SpHelp
+    @Inject lateinit var mGlide : RequestManager
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,7 @@ class HealthDiagnosisActivity : AppCompatActivity() {
 
         binding.let {
             it.tvYes.setOnClickListener {
-                vmHealthDiagnosis.setAnswerGetQuestion(mIdSymptom, 1)
+                vmHealthDiagnosis.setAnswerGetQuestion(mDataSymptom.id, 1)
                 (it as TextView).apply {
                     background = ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom_selected)
                     setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
@@ -60,7 +62,7 @@ class HealthDiagnosisActivity : AppCompatActivity() {
             }
 
             it.tvNo.setOnClickListener {
-                vmHealthDiagnosis.setAnswerGetQuestion(mIdSymptom, 0)
+                vmHealthDiagnosis.setAnswerGetQuestion(mDataSymptom.id, 0)
                 (it as TextView).apply {
                     background = ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom_selected)
                     setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
@@ -70,22 +72,28 @@ class HealthDiagnosisActivity : AppCompatActivity() {
         }
 
         binding.clInfo.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putParcelable(Cons.DATA_SYMPTOM, mDataSymptom)
 
+            val dialog =
+                ChooseSymptomActivity.BottomSheetSymptomDetail(null, null, mGlide)
+            dialog.arguments = bundle
+            dialog.show(supportFragmentManager, dialog.tag)
         }
 
         vmHealthDiagnosis.let {
             it.question.observe({lifecycle}, {
                 with(binding){
                     if(it.result_state==0){
-                        mIdSymptom = it.question_id
-                        tvQuestion.text = getQuestionFromList(mIdSymptom)
+                        mDataSymptom = getDataSymptomFromList(it.question_id)
+                        tvQuestion.text = mDataSymptom.question
                     } else {
                         resultDiagnosis = it
                         val jsonBody = JsonObject()
                         jsonBody.addProperty("id", mSpHelp.getString(Cons.ID_USER))
                         jsonBody.addProperty("symptoms", "mual, pusing, sakit kepala")
                         jsonBody.addProperty("illness", it.disease_id)
-                        jsonBody.addProperty("akurasi", 98)
+                        jsonBody.addProperty("akurasi", getAccuracy(it.probability))
 
                         vmHealthDiagnosis.saveHistory(jsonBody)
                     }
@@ -137,7 +145,7 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                     Cons.STATE_SAVE_HISTORY_SUCCESS -> {
                         val i = Intent(applicationContext, ResultDiagnosisActivity::class.java)
                         i.putExtra(Cons.ID_DISEASE, resultDiagnosis.disease_id)
-                        i.putExtra(Cons.PROBABILITY, resultDiagnosis.probability)
+                        i.putExtra(Cons.PROBABILITY, getAccuracy(resultDiagnosis.probability))
                         startActivity(i)
                         finish()
                     }
@@ -146,15 +154,19 @@ class HealthDiagnosisActivity : AppCompatActivity() {
         }
     }
 
-    fun getQuestionFromList(idQuestion: String): String {
+    fun getDataSymptomFromList(idQuestion: String): DataSymptom {
         val search = mAllSymptom.filter {
             it.id == idQuestion
         }
 
         return if(search.isNotEmpty()) {
-            search[0].question
+            search[0]
         }else{
-            idQuestion
+            DataSymptom(idQuestion, "Belum diinput", "Belum diinput", "", idQuestion, false)
         }
+    }
+
+    fun getAccuracy(input: Float): Int{
+        return (input*100).toInt()
     }
 }

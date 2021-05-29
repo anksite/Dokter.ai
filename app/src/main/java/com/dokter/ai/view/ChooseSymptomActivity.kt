@@ -156,8 +156,8 @@ class ChooseSymptomActivity : AppCompatActivity() {
     }
 
     class BottomSheetSymptomDetail(
-        val iSheetCancel: ISheetCancel,
-        val iSheetChoose: ISheetChoose,
+        val iSheetCancel: ISheetCancel?,
+        val iSheetChoose: ISheetChoose?,
         val glide: RequestManager
     ) : BottomSheetDialogFragment() {
         lateinit var mDialog: Dialog
@@ -179,8 +179,12 @@ class ChooseSymptomActivity : AppCompatActivity() {
                         dialog.cancel()
                     }
 
-                    bChoose.setOnClickListener {
-                        iSheetChoose.onChoose(idSymptom)
+                    if(iSheetChoose==null){
+                        bChoose.visibility = View.GONE
+                    } else {
+                        bChoose.setOnClickListener {
+                            iSheetChoose.onChoose(idSymptom)
+                        }
                     }
                 }
             }
@@ -190,7 +194,7 @@ class ChooseSymptomActivity : AppCompatActivity() {
 
         override fun onCancel(dialog: DialogInterface) {
             super.onCancel(dialog)
-            iSheetCancel.onCancel()
+            iSheetCancel?.onCancel()
         }
 
         interface ISheetCancel {
