@@ -61,12 +61,16 @@
         android:id="@+id/bthitung"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/hijau_doktorAI"
         android:text="Hitung IMT" />
 
     <Button
         android:id="@+id/btReset"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
+
+        android:textColor="@color/navy_doktorAI"
         android:text="Reset" />
 
     <TextView

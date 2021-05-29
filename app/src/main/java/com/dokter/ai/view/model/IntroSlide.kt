@@ -1,4 +1,4 @@
-package com.dokter.ai.view.slider
+package com.dokter.ai.view.model
 
 data class IntroSlide (
     val title: String,

@@ -12,7 +12,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
         classpath 'com.google.gms:google-services:4.3.8'
-
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -27,4 +27,22 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+ext {
+    //dependencies version
+    pagingVersion = '2.1.1'
+    appCompatVersion = '1.2.0'
+    coreVersion = '1.3.2'
+    constraintLayoutVersion = '2.0.4'
+    junitVersion = '4.13.1'
+    junitExtversion = '1.1.2'
+    espressoVersion = '3.3.0'
+    androidTestVersion = '1.3.0'
+    androidXTestVersion = '1.2.0'
+
+    materialVersion = '1.2.1'
+    recyclerViewVersion = '1.1.0'
+    glideVersion = '4.12.0'
+
 }

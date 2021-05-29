@@ -8,9 +8,12 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.dokter.ai.databinding.FragmentDashboardBinding
 import com.dokter.ai.view.BMICalculateActivity
 import com.dokter.ai.view.ChooseSymptomActivity
+import com.dokter.ai.view.adapter.DashboardAdapter
+import com.dokter.ai.view.util.DataDummy
 import com.dokter.ai.viewmodel.DashboardViewModel
 
 class DashboardFragment : Fragment() {
@@ -26,21 +29,42 @@ class DashboardFragment : Fragment() {
             ViewModelProvider(this).get(DashboardViewModel::class.java)
         binding = FragmentDashboardBinding.inflate(inflater, container, false)
 
-        dashboardViewModel.text.observe(viewLifecycleOwner, Observer {
-            binding.textDashboard.text = it
+        dashboardViewModel.textPeriksa.observe(viewLifecycleOwner, Observer {
+            binding.textPeriksa.text = it
         })
+
+        dashboardViewModel.textBMI.observe(viewLifecycleOwner, Observer {
+            binding.textBMI.text = it
+        })
+
+         binding = FragmentDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.bDiagnosis.setOnClickListener {
-            startActivity(Intent(context, ChooseSymptomActivity::class.java))
+        if (activity != null) {
+            val courses = DataDummy.generateNewsData()
+            val dashboardAdapter = DashboardAdapter()
+            dashboardAdapter.setNews(courses)
+
+                   with(binding.rvDashboard){
+                layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+                setHasFixedSize(true)
+                this.adapter = dashboardAdapter
+            }
+
+            binding.bDiagnosis.setOnClickListener {
+                startActivity(Intent(context, ChooseSymptomActivity::class.java))
+            }
+
+            binding.bBMI.setOnClickListener {
+                startActivity(Intent(context, BMICalculateActivity::class.java))
+            }
+
         }
 
-        binding.bBMI.setOnClickListener {
-            startActivity(Intent(context, BMICalculateActivity::class.java))
-        }
+
     }
 }
