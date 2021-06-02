@@ -1,175 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".view.fragment.DashboardFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvDashboard"
-        app:layout_constraintTop_toTopOf="parent"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="15dp"/>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/bDiagnosis"
-        android:layout_width="160dp"
-        android:layout_height="150dp"
-        android:layout_margin="8dp"
-        android:layout_marginTop="60dp"
-        android:contentDescription="diagnosis"
-        android:padding="8dp"
-        app:cardBackgroundColor="@color/hijau_doktorAI"
-        app:cardCornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/rvDashboard"
-        app:layout_constraintVertical_bias="0.0">
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-
-        <ImageView
-            android:id="@+id/ivperiksa"
-            android:layout_width="124dp"
-            android:layout_height="99dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="15dp"
-            android:contentDescription="diagnosis"
-
-            android:padding="2dp"
-            android:src="@drawable/stethoscope" />
+        tools:context=".view.fragment.DashboardFragment">
 
         <TextView
-            android:id="@+id/textPeriksa"
-            android:layout_width="126dp"
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="19dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="12dp"
-            android:text="Cek Kesehatan"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="17dp"
-            android:textStyle="bold" />
-
-
-                </RelativeLayout>
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/bBMI"
-        android:layout_width="160dp"
-        android:layout_height="150dp"
-        android:layout_margin="8dp"
-        android:layout_marginBottom="16dp"
-        android:contentDescription="diagnosis"
-        android:padding="8dp"
-
-        app:cardBackgroundColor="@color/navy_doktorAI"
-        app:cardCornerRadius="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bDiagnosis"
-        app:layout_constraintVertical_bias="0.267">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        <ImageView
-            android:layout_width="152dp"
-            android:layout_height="104dp"
-            android:layout_margin="5dp"
-            android:contentDescription="diagnosis"
-            android:padding="5dp"
-            android:src="@drawable/clipboard" />
-
-        <TextView
-            android:id="@+id/textBMI"
-            android:layout_width="126dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="Dashboard"
+            android:textColor="@color/colorFont"
+            android:textSize="36sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvDashboard"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="19dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginBottom="12dp"
-            android:textAlignment="center"
-            android:textSize="17dp"
-            android:text="Cek BMI" />
+            android:layout_marginTop="16dp"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
-        </RelativeLayout>
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bDiagnosis"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="diagnosis"
+            android:padding="8dp"
+            app:cardBackgroundColor="@color/hijau_doktorAI"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rvDashboard">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="vertical">
+                <ImageView
+                    android:id="@+id/ivperiksa"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:src="@drawable/stethoscope" />
+
+                <TextView
+                    android:id="@+id/textPeriksa"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Mulai Diagnosa"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bBMI"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:contentDescription="diagnosis"
+            app:cardBackgroundColor="@color/navy_doktorAI"
+            app:cardCornerRadius="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/bDiagnosis">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:background="?android:selectableItemBackground"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:contentDescription="diagnosis"
+                    android:src="@drawable/clipboard" />
+
+                <TextView
+                    android:id="@+id/textBMI"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="Cek BMI"
+                    android:gravity="center"
+                    android:textColor="@color/white"
+                    android:textAppearance="?android:textAppearanceMedium"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
 
-    </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
 
-    <!--    <ImageView-->
-    <!--        android:layout_width="100dp"-->
-    <!--        android:layout_height="100dp"-->
-    <!--        android:layout_margin="8dp"-->
-    <!--        android:contentDescription="diagnosis"-->
-    <!--        android:padding="8dp"-->
-    <!--        android:src="@color/hijau_doktorAI"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/bBMI"-->
-    <!--        app:layout_constraintHorizontal_bias="0.5"-->
-    <!--        app:layout_constraintStart_toStartOf="@id/rvDashboard"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/rvDashboard"-->
-    <!--        app:layout_constraintCircleRadius="500dp"-->
-    <!--        />-->
-
-
-    <!--    <Button-->
-    <!--        android:id="@+id/bDiagnosis"-->
-    <!--        android:layout_width="0dp"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:layout_marginStart="8dp"-->
-    <!--        android:layout_marginEnd="8dp"-->
-    <!--        android:text="Health Diagnosis"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toStartOf="@+id/bBMI"-->
-    <!--        app:layout_constraintHorizontal_bias="0.5"-->
-    <!--        app:layout_constraintStart_toStartOf="@id/rvDashboard"-->
-    <!--        app:layout_constraintTop_toBottomOf="@+id/rvDashboard" />-->
-
-    <!--    <Button-->
-<!--        android:id="@+id/bBMI"-->
-<!--        android:layout_width="0dp"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:layout_marginStart="8dp"-->
-<!--        android:layout_marginEnd="8dp"-->
-<!--        android:text="BMI"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintHorizontal_bias="0.5"-->
-<!--        app:layout_constraintStart_toEndOf="@+id/bDiagnosis"-->
-<!--        app:layout_constraintTop_toTopOf="@+id/bDiagnosis" />-->
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
