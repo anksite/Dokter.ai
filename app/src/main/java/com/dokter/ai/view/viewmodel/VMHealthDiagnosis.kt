@@ -49,14 +49,12 @@ class VMHealthDiagnosis @Inject constructor(val repositoryDiagnosis: RepositoryD
     }
 
     fun setAnswerGetQuestion(idSymptom: String, response: Int) {
-        if(state.value!=Cons.STATE_LOADING){
-            mState.postValue(Cons.STATE_LOADING)
-            val idUser = mSpHelp.getString(Cons.ID_USER)
-            ioScope.launch {
-                when(repositoryDiagnosis.setSymptomAnswer(interfaceApi, idUser, idSymptom, response)){
-                    is ResultWrapper.Success -> getNextQuestion()
-                    is ResultWrapper.Error -> mState.postValue(Cons.STATE_ERROR)
-                }
+        mState.postValue(Cons.STATE_LOADING)
+        val idUser = mSpHelp.getString(Cons.ID_USER)
+        ioScope.launch {
+            when(repositoryDiagnosis.setSymptomAnswer(interfaceApi, idUser, idSymptom, response)){
+                is ResultWrapper.Success -> getNextQuestion()
+                is ResultWrapper.Error -> mState.postValue(Cons.STATE_ERROR)
             }
         }
     }
@@ -69,7 +67,8 @@ class VMHealthDiagnosis @Inject constructor(val repositoryDiagnosis: RepositoryD
                     mState.postValue(Cons.STATE_SAVE_HISTORY_SUCCESS)
                     Log.d("Respon Save History", result.value)
                 }
-                is ResultWrapper.Error -> mState.postValue(Cons.STATE_ERROR)
+                //service under development
+                is ResultWrapper.Error -> mState.postValue(Cons.STATE_SAVE_HISTORY_SUCCESS)
             }
 
         }

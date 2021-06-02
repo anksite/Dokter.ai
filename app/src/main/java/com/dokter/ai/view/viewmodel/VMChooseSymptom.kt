@@ -31,7 +31,10 @@ class VMChooseSymptom @Inject constructor(val repositoryDiagnosis: RepositoryDia
 
     fun getSymptom() {
         ioScope.launch {
-            mListSymptom.postValue(DataMapper.mapResponseToDomain(interfaceApi.symptom()))
+            when(val result = repositoryDiagnosis.getAllSymptom(interfaceApi)){
+                is ResultWrapper.Success -> mListSymptom.postValue(result.value)
+                is ResultWrapper.Error -> mPrepareState.postValue(Cons.STATE_ERROR)
+            }
         }
     }
 

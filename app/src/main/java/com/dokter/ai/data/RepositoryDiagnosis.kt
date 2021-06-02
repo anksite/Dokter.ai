@@ -13,6 +13,18 @@ class RepositoryDiagnosis() {
         Log.d("Repo", "Instance created")
     }
 
+    suspend fun getAllSymptom(interfaceApi: InterfaceApi): ResultWrapper<List<DataSymptom>> {
+        try {
+            val result = interfaceApi.symptom()
+            return ResultWrapper.Success(DataMapper.mapResponseToDomain(result))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return ResultWrapper.Error
+        }
+
+        return ResultWrapper.Error
+    }
+
     suspend fun resetQuestionTree(interfaceApi: InterfaceApi, idUSer: String): ResultWrapper<String> {
         try {
             val response = interfaceApi.resetQuestionTree(idUSer)

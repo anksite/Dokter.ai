@@ -81,16 +81,6 @@ class ResultDiagnosisActivity : AppCompatActivity() {
                             .load(dataDisease.image)
                             .listener(object : RequestListener<Drawable?> {
 
-                                override fun onResourceReady(
-                                    resource: Drawable?,
-                                    model: Any?,
-                                    target: com.bumptech.glide.request.target.Target<Drawable?>?,
-                                    dataSource: DataSource?,
-                                    isFirstResource: Boolean
-                                ): Boolean {
-                                    TODO("Not yet implemented")
-                                }
-
                                 override fun onLoadFailed(
                                     e: GlideException?,
                                     model: Any?,
@@ -98,7 +88,17 @@ class ResultDiagnosisActivity : AppCompatActivity() {
                                     isFirstResource: Boolean
                                 ): Boolean {
                                     ivDisease.visibility = View.GONE
-                                    return true
+                                    return false
+                                }
+
+                                override fun onResourceReady(
+                                    resource: Drawable?,
+                                    model: Any?,
+                                    target: Target<Drawable?>?,
+                                    dataSource: DataSource?,
+                                    isFirstResource: Boolean
+                                ): Boolean {
+                                    return false
                                 }
                             })
                             .into(ivDisease)

@@ -85,11 +85,14 @@ class ChooseSymptomActivity : AppCompatActivity() {
                         finish()
                     }
 
-                    Cons.STATE_ERROR -> Toast.makeText(
-                        this,
-                        "Jaringan bermasalah, Silakan coba lagi",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Cons.STATE_ERROR -> {
+                        binding.pbLoad.visibility = View.GONE
+                        Toast.makeText(
+                            this,
+                            "Jaringan bermasalah, Silakan coba lagi",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             })
         }
@@ -180,7 +183,7 @@ class ChooseSymptomActivity : AppCompatActivity() {
                         dialog.cancel()
                     }
 
-                    if(iSheetChoose==null){
+                    if (iSheetChoose == null) {
                         bChoose.visibility = View.GONE
                     } else {
                         bChoose.setOnClickListener {
