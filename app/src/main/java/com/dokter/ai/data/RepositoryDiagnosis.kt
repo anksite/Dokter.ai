@@ -73,9 +73,9 @@ class RepositoryDiagnosis() {
         return ResultWrapper.Error
     }
 
-    suspend fun setSymptomAnswer(interfaceApi: InterfaceApi, idUSer: String, idSymptom: String, response: Int): ResultWrapper<String> {
+    suspend fun setSymptomAnswer(interfaceApi: InterfaceApi, idUSer: String, rawJson: JsonObject): ResultWrapper<String> {
         try {
-            val result = interfaceApi.setSymptomAnswer(idUSer, idSymptom, response)
+            val result = interfaceApi.setSymptomAnswer(idUSer, rawJson)
             if (result.isSuccessful) {
                 result.body()?.let {
                     return ResultWrapper.Success(it)

@@ -25,11 +25,9 @@ interface InterfaceApi {
     ): List<ResponseQuestion>
 
     @POST("DokterAIAPI/question/set_symptoms/{idUser}")
-    @FormUrlEncoded
     suspend fun setSymptomAnswer(
         @Path("idUser") idUser: String,
-        @Field("symptoms_id") symptoms_id: String,
-        @Field("response") response: Int
+        @Body rawJson: JsonObject
     ): Response<String>
 
     @GET("DokterAIAPI/disease/{idDisease}")

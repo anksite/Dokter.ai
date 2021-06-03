@@ -41,6 +41,7 @@ class HealthDiagnosisActivity : AppCompatActivity() {
 
     @Inject
     lateinit var mSpHelp: SpHelp
+
     @Inject
     lateinit var mGlide: RequestManager
 
@@ -55,33 +56,25 @@ class HealthDiagnosisActivity : AppCompatActivity() {
         hideView()
         vmHealthDiagnosis.getNextQuestion()
 
-        binding.let {
-            it.tvYes.setOnClickListener {
+        binding.let { it ->
+            it.tvYes.setOnClickListener {it as TextView
                 if (!isLoading) {
-                    vmHealthDiagnosis.setAnswerGetQuestion(mDataSymptom.id, 1)
-                    (it as TextView).apply {
-                        background = ContextCompat.getDrawable(
-                            applicationContext,
-                            R.drawable.bg_symptom_selected
-                        )
-                        setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-                        setTypeface(null, Typeface.BOLD)
-                    }
+                    val jsonBody = JsonObject()
+                    jsonBody.addProperty("symptoms_id", mDataSymptom.id)
+                    jsonBody.addProperty("response", 1)
+                    vmHealthDiagnosis.setAnswerGetQuestion(jsonBody)
+                    setBackgroundTextView(true, it)
                 }
 
             }
 
-            it.tvNo.setOnClickListener {
-                if(!isLoading){
-                    vmHealthDiagnosis.setAnswerGetQuestion(mDataSymptom.id, 0)
-                    (it as TextView).apply {
-                        background = ContextCompat.getDrawable(
-                            applicationContext,
-                            R.drawable.bg_symptom_selected
-                        )
-                        setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
-                        setTypeface(null, Typeface.BOLD)
-                    }
+            it.tvNo.setOnClickListener {it as TextView
+                if (!isLoading) {
+                    val jsonBody = JsonObject()
+                    jsonBody.addProperty("symptoms_id", mDataSymptom.id)
+                    jsonBody.addProperty("response", 0)
+                    vmHealthDiagnosis.setAnswerGetQuestion(jsonBody)
+                    setBackgroundTextView(true, it)
                 }
             }
         }
@@ -128,19 +121,8 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                         binding.pbLoad.visibility = View.GONE
                         isLoading = false
 
-                        binding.tvNo.apply {
-                            background =
-                                ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom)
-                            setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
-                            setTypeface(null, Typeface.NORMAL)
-                        }
-
-                        binding.tvYes.apply {
-                            background =
-                                ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom)
-                            setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
-                            setTypeface(null, Typeface.NORMAL)
-                        }
+                        setBackgroundTextView(false, binding.tvYes)
+                        setBackgroundTextView(false, binding.tvNo)
                     }
 
                     Cons.STATE_ERROR -> {
@@ -152,19 +134,8 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
 
-                        binding.tvNo.apply {
-                            background =
-                                ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom)
-                            setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
-                            setTypeface(null, Typeface.NORMAL)
-                        }
-
-                        binding.tvYes.apply {
-                            background =
-                                ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom)
-                            setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
-                            setTypeface(null, Typeface.NORMAL)
-                        }
+                        setBackgroundTextView(false, binding.tvYes)
+                        setBackgroundTextView(false, binding.tvNo)
                     }
 
                     Cons.STATE_SAVE_HISTORY_SUCCESS -> {
@@ -176,6 +147,50 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                     }
                 }
             })
+        }
+    }
+
+    fun setBackgroundTextView(isSelected: Boolean, textView: TextView) {
+        if (isSelected) {
+            when (textView) {
+                binding.tvYes -> {
+                    textView.apply {
+                        background =
+                            ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom_selected)
+                        setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+                        setTypeface(null, Typeface.BOLD)
+                    }
+                }
+
+                binding.tvNo -> {
+                    textView.apply {
+                        background =
+                            ContextCompat.getDrawable(applicationContext, R.drawable.bg_answer_no_selected)
+                        setTextColor(ContextCompat.getColor(applicationContext, R.color.white))
+                        setTypeface(null, Typeface.BOLD)
+                    }
+                }
+            }
+        } else {
+            when (textView) {
+                binding.tvYes -> {
+                    textView.apply {
+                        background =
+                            ContextCompat.getDrawable(applicationContext, R.drawable.bg_symptom)
+                        setTextColor(ContextCompat.getColor(applicationContext, R.color.green))
+                        setTypeface(null, Typeface.NORMAL)
+                    }
+                }
+
+                binding.tvNo -> {
+                    textView.apply {
+                        background =
+                            ContextCompat.getDrawable(applicationContext, R.drawable.bg_answer_no)
+                        setTextColor(ContextCompat.getColor(applicationContext, R.color.red_400))
+                        setTypeface(null, Typeface.NORMAL)
+                    }
+                }
+            }
         }
     }
 

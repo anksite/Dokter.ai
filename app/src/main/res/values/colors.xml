@@ -17,5 +17,6 @@
     <color name="greySoft">#ECECEC</color>
 
     <color name="red_500">#F44336</color>
+    <color name="red_400">#EF5350</color>
 
 </resources>
