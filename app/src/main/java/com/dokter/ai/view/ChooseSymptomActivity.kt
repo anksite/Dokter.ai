@@ -111,7 +111,9 @@ class ChooseSymptomActivity : AppCompatActivity() {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                searchSymptom(newText)
+                if(binding.pbLoad.visibility==View.GONE){
+                    searchSymptom(newText)
+                }
                 return true
             }
         })
@@ -131,17 +133,19 @@ class ChooseSymptomActivity : AppCompatActivity() {
 
     val iRvClick = object : RecyclerAdapterSymptom.IRvClick {
         override fun onItemClick(position: Int) {
-            mIndexSelected = position
+            if(binding.pbLoad.visibility==View.GONE){
+                mIndexSelected = position
 
-            val bundle = Bundle()
-            bundle.putParcelable(Cons.DATA_SYMPTOM, mListSymptom[mIndexSelected])
+                val bundle = Bundle()
+                bundle.putParcelable(Cons.DATA_SYMPTOM, mListSymptom[mIndexSelected])
 
-            val dialog = BottomSheetSymptomDetail(iSheetCancel, iSheetChoose, mGlide)
-            dialog.arguments = bundle
-            dialog.show(supportFragmentManager, dialog.tag)
+                val dialog = BottomSheetSymptomDetail(iSheetCancel, iSheetChoose, mGlide)
+                dialog.arguments = bundle
+                dialog.show(supportFragmentManager, dialog.tag)
 
-            mListSymptom[mIndexSelected].selected = true
-            mAdapter.notifyItemChanged(position)
+                mListSymptom[mIndexSelected].selected = true
+                mAdapter.notifyItemChanged(position)
+            }
         }
     }
 
@@ -188,6 +192,7 @@ class ChooseSymptomActivity : AppCompatActivity() {
                     } else {
                         bChoose.setOnClickListener {
                             iSheetChoose.onChoose(idSymptom)
+                            dialog.hide()
                         }
                     }
                 }

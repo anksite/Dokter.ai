@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 class DashboardViewModel : ViewModel() {
 
     private val _textPeriksa = MutableLiveData<String>().apply {
-        value = "Cek Kesehatan"
+        value = "Mulai Diagnosa"
     }
     val textPeriksa: LiveData<String> = _textPeriksa
 
@@ -15,6 +15,4 @@ class DashboardViewModel : ViewModel() {
         value = "Cek BMI"
     }
     val textBMI: LiveData<String> = _textBMI
-
-
 }
