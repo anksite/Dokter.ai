@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.dokter.ai.databinding.CardViewBinding
 import com.dokter.ai.databinding.FragmentDashboardBinding
 import com.dokter.ai.view.DetailNewsActivity
@@ -38,6 +39,7 @@ class DashboardAdapter : RecyclerView.Adapter<DashboardAdapter.ViewHolder>() {
     inner class ViewHolder(private val binding: CardViewBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind (course : NewsEntity){
             binding.tvCard.text = course.title
+            Glide.with(itemView.context).load(course.photo).centerCrop().into(binding.ivArtikel)
             itemView.setOnClickListener{
                 val intent = Intent(itemView.context, DetailNewsActivity::class.java)
                 intent.putExtra(DetailNewsActivity.EXTRA_COURSE, course.title)

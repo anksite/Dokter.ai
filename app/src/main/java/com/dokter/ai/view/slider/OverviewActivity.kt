@@ -22,12 +22,12 @@ class OverviewActivity : AppCompatActivity() {
         listOf(
             IntroSlide(
                 "Bagaimana kondisimu hari ini?",
-                "Cek kesehatanmu hanya dengan menjawab pertanyaan Doktor.AI !",
+                "Cek kesehatanmu hanya dengan menjawab pertanyaan Dokter.ai !",
                 R.drawable.slidepict
             ),
             IntroSlide(
                 "Sudahkah cek massa tubuhmu hari ini?",
-                "Hitung sekarang menggunakan Doktor.AI !",
+                "Hitung sekarang menggunakan Dokter.ai !",
                 R.drawable.slidepict
             )
         )

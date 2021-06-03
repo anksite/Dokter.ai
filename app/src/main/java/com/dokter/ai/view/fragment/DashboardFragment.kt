@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.LinearSnapHelper
 import com.dokter.ai.databinding.FragmentDashboardBinding
 import com.dokter.ai.view.BMICalculateActivity
 import com.dokter.ai.view.ChooseSymptomActivity
@@ -38,7 +39,7 @@ class DashboardFragment : Fragment() {
             binding.textBMI.text = it
         })
 
-         binding = FragmentDashboardBinding.inflate(inflater, container, false)
+        binding = FragmentDashboardBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -50,11 +51,14 @@ class DashboardFragment : Fragment() {
             val dashboardAdapter = DashboardAdapter()
             dashboardAdapter.setNews(courses)
 
-                   with(binding.rvDashboard){
-                layoutManager = LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false)
+            with(binding.rvDashboard) {
+                layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
                 setHasFixedSize(true)
                 this.adapter = dashboardAdapter
             }
+
+            val snapHelper = LinearSnapHelper()
+            snapHelper.attachToRecyclerView(binding.rvDashboard)
 
             binding.bDiagnosis.setOnClickListener {
                 startActivity(Intent(context, ChooseSymptomActivity::class.java))

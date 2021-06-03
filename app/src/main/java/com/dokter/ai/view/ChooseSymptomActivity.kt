@@ -23,6 +23,7 @@ import com.dokter.ai.databinding.ActivityChooseSymptomBinding
 import com.dokter.ai.databinding.SheetDetailSymptomBinding
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
+import com.dokter.ai.view.adapter.RecyclerAdapterSymptom
 import com.dokter.ai.view.viewmodel.VMChooseSymptom
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,11 +85,14 @@ class ChooseSymptomActivity : AppCompatActivity() {
                         finish()
                     }
 
-                    Cons.STATE_ERROR -> Toast.makeText(
-                        this,
-                        "Jaringan bermasalah, Silakan coba lagi",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    Cons.STATE_ERROR -> {
+                        binding.pbLoad.visibility = View.GONE
+                        Toast.makeText(
+                            this,
+                            "Jaringan bermasalah, Silakan coba lagi",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             })
         }
@@ -179,7 +183,7 @@ class ChooseSymptomActivity : AppCompatActivity() {
                         dialog.cancel()
                     }
 
-                    if(iSheetChoose==null){
+                    if (iSheetChoose == null) {
                         bChoose.visibility = View.GONE
                     } else {
                         bChoose.setOnClickListener {

@@ -73,19 +73,17 @@
             app:layout_constraintTop_toBottomOf="@+id/tvDesc"
             android:text="Rekomendasi" />
 
-        <TextView
-            android:id="@+id/tvRecom"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvRecom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/colorFont"
+            android:nestedScrollingEnabled="false"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView4"
-            tools:text="Rekom 1" />
+            app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
         <Button
             android:id="@+id/bDone"
@@ -95,7 +93,7 @@
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
             android:text="SELESAI"
-            app:layout_constraintTop_toBottomOf="@id/tvRecom"
+            app:layout_constraintTop_toBottomOf="@id/rvRecom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
