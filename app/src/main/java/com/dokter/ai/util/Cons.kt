@@ -15,5 +15,13 @@ class Cons {
 
         const val ALL_SYMPTOM = "allSymptom"
         const val PROBABILITY = "probability"
+        const val SYMPTOMS = "symptoms"
+
+        const val BERAT = "berat"
+        const val TINGGI = "tinggi"
+
+        const val DATABASE_NAME = "db_dokter.ai"
+
+        const val ENTITY_HISTORY = "entityHistory"
     }
 }

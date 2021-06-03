@@ -72,9 +72,13 @@ class OverviewActivity : AppCompatActivity() {
         }
 
         binding.skipTv.setOnClickListener {
-            startActivity(Intent(this, LoginActivity::class.java))
-            finish()
-            
+            Intent(applicationContext, LoginActivity::class.java).also {
+                startActivity(it)
+                finish()
+                val editor = preferences.edit()
+                editor.putBoolean(pref_show_intro, false )
+                editor.apply()
+            }
         }
 
         binding.introSliderViewPager.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){

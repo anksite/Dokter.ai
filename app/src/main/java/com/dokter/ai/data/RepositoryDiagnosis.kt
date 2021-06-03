@@ -1,6 +1,8 @@
 package com.dokter.ai.data
 
 import android.util.Log
+import com.dokter.ai.data.local.entity.EntityHistory
+import com.dokter.ai.data.local.room.DaoHistory
 import com.dokter.ai.data.network.*
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
@@ -121,4 +123,9 @@ class RepositoryDiagnosis() {
         return ResultWrapper.Error
     }
 
+    suspend fun saveHistoryLocal(daoHistory: DaoHistory, entityHistory: EntityHistory){
+        daoHistory.insertHistory(entityHistory)
+    }
+
+    fun selectHistoryLocal(daoHistory: DaoHistory) = daoHistory.selectListHistory()
 }

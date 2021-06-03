@@ -3,7 +3,10 @@ package com.dokter.ai.view.viewmodel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.dokter.ai.data.RepositoryDiagnosis
+import com.dokter.ai.data.local.entity.EntityHistory
+import com.dokter.ai.data.local.room.DaoHistory
 import com.dokter.ai.data.network.InterfaceApi
 import com.dokter.ai.data.network.ResponseDisease
 import com.dokter.ai.data.network.ResultWrapper
@@ -19,6 +22,7 @@ import javax.inject.Inject
 class VMResultDiagnosis @Inject constructor(val repositoryDiagnosis: RepositoryDiagnosis): ViewModel() {
     @Inject lateinit var interfaceApi: InterfaceApi
     @Inject lateinit var mSpHelp: SpHelp
+    @Inject lateinit var daoHistory: DaoHistory
 
     val mDisease = MutableLiveData<String>()
     val disease : LiveData<String> = mDisease
@@ -39,6 +43,12 @@ class VMResultDiagnosis @Inject constructor(val repositoryDiagnosis: RepositoryD
                 is ResultWrapper.Error -> mState.postValue(Cons.STATE_ERROR)
             }
 
+        }
+    }
+
+    fun saveHistoryLocal(entityHistory: EntityHistory){
+        viewModelScope.launch {
+            repositoryDiagnosis.saveHistoryLocal(daoHistory, entityHistory)
         }
     }
 }

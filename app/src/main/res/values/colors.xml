@@ -19,4 +19,9 @@
     <color name="red_500">#F44336</color>
     <color name="red_400">#EF5350</color>
 
+    <color name="below_standar">#E0C88B</color>
+    <color name="ideal">#2EC486</color>
+    <color name="over">#F3972A</color>
+    <color name="much_over">#FD4141</color>
+
 </resources>

@@ -35,6 +35,8 @@ class HealthDiagnosisActivity : AppCompatActivity() {
         intent.getParcelableArrayListExtra(Cons.ALL_SYMPTOM)
     }
 
+    val mListSymptom = ArrayList<String>()
+
     lateinit var mDataSymptom: DataSymptom
 
     lateinit var resultDiagnosis: ResponseQuestion
@@ -64,6 +66,7 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                     jsonBody.addProperty("response", 1)
                     vmHealthDiagnosis.setAnswerGetQuestion(jsonBody)
                     setBackgroundTextView(true, it)
+                    mListSymptom.add(mDataSymptom.name)
                 }
 
             }
@@ -142,6 +145,7 @@ class HealthDiagnosisActivity : AppCompatActivity() {
                         val i = Intent(applicationContext, ResultDiagnosisActivity::class.java)
                         i.putExtra(Cons.ID_DISEASE, resultDiagnosis.disease_id)
                         i.putExtra(Cons.PROBABILITY, getAccuracy(resultDiagnosis.probability))
+                        i.putExtra(Cons.SYMPTOMS, mListSymptom)
                         startActivity(i)
                         finish()
                     }

@@ -4,9 +4,10 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dokter.ai.data.DataMapper
-import com.dokter.ai.data.DataSymptom
+import androidx.lifecycle.viewModelScope
 import com.dokter.ai.data.RepositoryDiagnosis
+import com.dokter.ai.data.local.entity.EntityHistory
+import com.dokter.ai.data.local.room.DaoHistory
 import com.dokter.ai.data.network.InterfaceApi
 import com.dokter.ai.data.network.InterfaceApiCloud
 import com.dokter.ai.data.network.ResponseQuestion
@@ -15,8 +16,6 @@ import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
 import com.google.gson.JsonObject
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,11 +31,9 @@ class VMHealthDiagnosis @Inject constructor(val repositoryDiagnosis: RepositoryD
     val mState = MutableLiveData<String>()
     val state : LiveData<String> = mState
 
-    val ioScope = CoroutineScope(Dispatchers.IO)
-
     fun getNextQuestion() {
         mState.postValue(Cons.STATE_LOADING)
-        ioScope.launch {
+        viewModelScope.launch {
             when(val result = repositoryDiagnosis.getNextQuestion(interfaceApi, mSpHelp.getString(Cons.ID_USER))){
                 is ResultWrapper.Success -> {
                     mState.postValue(Cons.STATE_SUCCESS)
@@ -51,7 +48,7 @@ class VMHealthDiagnosis @Inject constructor(val repositoryDiagnosis: RepositoryD
     fun setAnswerGetQuestion(rawJson: JsonObject) {
         mState.postValue(Cons.STATE_LOADING)
         val idUser = mSpHelp.getString(Cons.ID_USER)
-        ioScope.launch {
+        viewModelScope.launch {
             when(repositoryDiagnosis.setSymptomAnswer(interfaceApi, idUser, rawJson)){
                 is ResultWrapper.Success -> getNextQuestion()
                 is ResultWrapper.Error -> mState.postValue(Cons.STATE_ERROR)
@@ -61,7 +58,7 @@ class VMHealthDiagnosis @Inject constructor(val repositoryDiagnosis: RepositoryD
 
     fun saveHistory(rawJson: JsonObject) {
         mState.postValue(Cons.STATE_LOADING)
-        ioScope.launch {
+        viewModelScope.launch {
             when(val result = repositoryDiagnosis.saveHistory(interfaceApiCloud,rawJson)){
                 is ResultWrapper.Success -> {
                     mState.postValue(Cons.STATE_SAVE_HISTORY_SUCCESS)

@@ -19,7 +19,7 @@ class SpHelp (context: Context){
     }
 
     fun getString(key:String):String{
-        return sp.getString(key, "NULL")?:"NULL"
+        return sp.getString(key, "")?:""
     }
 
     fun writeBool(key:String, value:Boolean){

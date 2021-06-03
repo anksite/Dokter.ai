@@ -18,6 +18,7 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.dokter.ai.R
+import com.dokter.ai.data.local.entity.EntityHistory
 import com.dokter.ai.data.network.ResponseDisease
 import com.dokter.ai.databinding.ActivityResultDiagnosisBinding
 import com.dokter.ai.databinding.SheetDisclaimerBinding
@@ -27,6 +28,8 @@ import com.dokter.ai.view.viewmodel.VMResultDiagnosis
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
+import java.text.SimpleDateFormat
+import java.util.*
 import javax.inject.Inject
 
 
@@ -46,6 +49,7 @@ class ResultDiagnosisActivity : AppCompatActivity() {
 
         val idDisease = intent.getStringExtra(Cons.ID_DISEASE)
         val probability = intent.getIntExtra(Cons.PROBABILITY, -1)
+        val symptoms = intent.getStringArrayListExtra(Cons.SYMPTOMS)
 
         vmResultDiagnosis.getResultDisease(idDisease)
 
@@ -78,7 +82,7 @@ class ResultDiagnosisActivity : AppCompatActivity() {
                         }
 
                         mGlide
-                            .load(dataDisease.image)
+                            .load(dataDisease.image).centerCrop()
                             .listener(object : RequestListener<Drawable?> {
 
                                 override fun onLoadFailed(
@@ -104,6 +108,22 @@ class ResultDiagnosisActivity : AppCompatActivity() {
                             .into(ivDisease)
 
                     }
+
+                    val c = Calendar.getInstance()
+                    val sdf = SimpleDateFormat("yyy-MM-dd")
+
+                    val entityHistory = EntityHistory(
+                        -1,
+                        sdf.format(c.time),
+                        symptoms.toString(),
+                        dataDisease.name,
+                        probability,
+                        dataDisease.image,
+                        dataDisease.description,
+                        dataDisease.recomendation.toString()
+                    )
+
+                    vmResultDiagnosis.saveHistoryLocal(entityHistory)
                 }
 
             })

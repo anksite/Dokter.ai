@@ -25,6 +25,7 @@ import com.dokter.ai.databinding.SheetExitAccountBinding
 import com.dokter.ai.databinding.SheetExitDiagnosisBinding
 import com.dokter.ai.util.Cons
 import com.dokter.ai.util.SpHelp
+import com.dokter.ai.view.HistoryActivity
 import com.dokter.ai.view.LoginActivity
 import com.dokter.ai.view.ResultDiagnosisActivity
 import com.dokter.ai.view.viewmodel.NotificationsViewModel
@@ -59,6 +60,13 @@ class AccountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        binding.tvHistory.setOnClickListener {
+            Intent(context, HistoryActivity::class.java).also {
+                startActivity(it)
+            }
+        }
+
         binding.tvLogout.setOnClickListener {
             BottomSheetExit().let {
                 activity?.supportFragmentManager?.let { it1 -> it.show(it1, it.tag) }
