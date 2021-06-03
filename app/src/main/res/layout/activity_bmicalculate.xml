@@ -1,111 +1,324 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".view.BMICalculateActivity">
+    android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="Hitung"
-        android:textAlignment="center"
-        android:textColor="@color/navy_doktorAI"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="20pt"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card"
+        android:layout_width="370dp"
+        android:layout_height="210dp"
+        android:layout_margin="5dp"
+        android:orientation="horizontal"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="7dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/tvCard"
+                android:layout_width="197dp"
+                android:layout_height="34dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="27dp"
+                android:layout_marginTop="18dp"
+                android:layout_marginEnd="146dp"
+                android:text="Hitung"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/navy_doktorAI"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/edimt"
+                android:layout_width="197dp"
+                android:layout_height="34dp"
+                android:layout_below="@+id/tvCard"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="89dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="84dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/navy_doktorAI"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/edket"
+                android:layout_width="197dp"
+                android:layout_height="34dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="89dp"
+                android:layout_marginEnd="84dp"
+                android:layout_marginBottom="46dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/navy_doktorAI"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bTinggi"
+        android:layout_width="210dp"
+        android:layout_height="150dp"
+        android:layout_margin="8dp"
+        android:contentDescription="diagnosis"
+        android:padding="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/card"
+        app:layout_constraintVertical_bias="0.13">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Berat Badan (kg)"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="9pt" />
+        <RelativeLayout
+            android:layout_width="219dp"
+            android:layout_height="match_parent">
 
-    <EditText
-        android:id="@+id/edbb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="9pt"
-        android:inputType="textPersonName"
-        android:text="" />
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="197dp"
+                android:layout_height="34dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="13dp"
+                android:text="Tinggi Badan (CM)"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/navy_doktorAI"
+                android:textSize="18sp"
+                android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Tinggi Badan (cm)"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="9pt" />
+            <EditText
+                android:id="@+id/edtinggi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="21dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text=""
+                android:textSize="18pt" />
 
-    <EditText
-        android:id="@+id/edtinggi"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="9pt"
-        android:inputType="textPersonName"
-        android:text="" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/bBerat"
+        android:layout_width="210dp"
+        android:layout_height="150dp"
+        android:layout_margin="8dp"
+        android:contentDescription="diagnosis"
+        android:padding="8dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bTinggi"
+        app:layout_constraintVertical_bias="0.061"
+        tools:ignore="MissingConstraints">
+
+        <RelativeLayout
+            android:layout_width="219dp"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="197dp"
+                android:layout_height="34dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="13dp"
+                android:text="Berat Badan (Kg)"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+                android:textColor="@color/navy_doktorAI"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/edbb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="0dp"
+                android:layout_marginBottom="21dp"
+                android:ems="10"
+                android:inputType="textPersonName"
+                android:text=""
+                android:textSize="18pt" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
 
     <Button
         android:id="@+id/bthitung"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="44dp"
         android:background="@color/hijau_doktorAI"
-        android:text="Hitung IMT" />
+        android:text="Hitung IMT"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bBerat"
+        app:layout_constraintVertical_bias="0.375" />
 
     <Button
         android:id="@+id/btReset"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="44dp"
+        android:layout_marginBottom="60dp"
         android:background="@color/white"
-
+        android:text="Reset"
         android:textColor="@color/navy_doktorAI"
-        android:text="Reset" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Besar Indeks Massa Tubuh (IMT)"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="9pt" />
-
-    <TextView
-        android:id="@+id/edimt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="9pt"
-        android:text="" />
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:text="Keterangan"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large"
-        android:textSize="9pt" />
-
-    <TextView
-        android:id="@+id/edket"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="9pt"
-        android:text="" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bBerat"
+        app:layout_constraintVertical_bias="1.0" />
 
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
+
+
+
+
+<!--        <LinearLayout-->
+<!--            xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--            xmlns:app="http://schemas.android.com/apk/res-auto"-->
+<!--            xmlns:tools="http://schemas.android.com/tools"-->
+
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="match_parent"-->
+<!--            android:orientation="vertical"-->
+<!--            tools:context=".view.BMICalculateActivity">-->
+
+<!--            <TextView-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="10dp"-->
+<!--                android:text="Hitung"-->
+<!--                android:textAlignment="center"-->
+<!--                android:textColor="@color/navy_doktorAI"-->
+<!--                android:textAppearance="@style/TextAppearance.AppCompat.Body2"-->
+<!--                android:textSize="20pt"-->
+<!--                app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                app:layout_constraintLeft_toLeftOf="parent"-->
+<!--                app:layout_constraintRight_toRightOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textView"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:text="Berat Badan (kg)"-->
+<!--                android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--                android:textSize="9pt" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/edbb"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="10"-->
+<!--                android:textSize="9pt"-->
+<!--                android:inputType="textPersonName"-->
+<!--                android:text="" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textView1"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:text="Tinggi Badan (cm)"-->
+<!--                android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--                android:textSize="9pt" />-->
+
+<!--            <EditText-->
+<!--                android:id="@+id/edtinggi"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="10"-->
+<!--                android:textSize="9pt"-->
+<!--                android:inputType="textPersonName"-->
+<!--                android:text="" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/bthitung"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@color/hijau_doktorAI"-->
+<!--                android:text="Hitung IMT" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/btReset"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:background="@color/white"-->
+
+<!--                android:textColor="@color/navy_doktorAI"-->
+<!--                android:text="Reset" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textView2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:text="Besar Indeks Massa Tubuh (IMT)"-->
+<!--                android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--                android:textSize="9pt" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/edimt"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="10"-->
+<!--                android:textSize="9pt"-->
+<!--                android:text="" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/textView3"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="15dp"-->
+<!--                android:text="Keterangan"-->
+<!--                android:textAppearance="@style/TextAppearance.AppCompat.Large"-->
+<!--                android:textSize="9pt" />-->
+
+<!--            <TextView-->
+<!--                android:id="@+id/edket"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:ems="10"-->
+<!--                android:textSize="9pt"-->
+<!--                android:text="" />-->
+
+
+<!--        </LinearLayout>-->
