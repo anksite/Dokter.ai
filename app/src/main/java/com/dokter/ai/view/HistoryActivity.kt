@@ -1,5 +1,6 @@
 package com.dokter.ai.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -25,13 +26,21 @@ class HistoryActivity : AppCompatActivity() {
         title = "Riwayat Diagnosa"
 
         vmHistory.getHistory().observe({ lifecycle }, {
-            binding.gNoHistory.visibility = View.GONE
+            if(it.size>0){
+                binding.gNoHistory.visibility = View.GONE
 
-            binding.rvHistory.apply {
-                layoutManager = LinearLayoutManager(this@HistoryActivity)
-                adapter = RecyclerAdapterHistory(it, this@HistoryActivity)
+                binding.rvHistory.apply {
+                    layoutManager = LinearLayoutManager(this@HistoryActivity)
+                    adapter = RecyclerAdapterHistory(it, this@HistoryActivity)
+                }
             }
         })
+
+        binding.bDiagnosis.setOnClickListener {
+            Intent(this, ChooseSymptomActivity::class.java).also {
+                startActivity(it)
+            }
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

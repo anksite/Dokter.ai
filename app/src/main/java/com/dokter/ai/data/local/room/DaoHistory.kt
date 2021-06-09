@@ -11,6 +11,6 @@ interface DaoHistory {
     @Insert
     suspend fun insertHistory(data: EntityHistory)
 
-    @Query("SELECT * FROM EntityHistory")
+    @Query("SELECT * FROM EntityHistory ORDER BY id DESC")
     fun selectListHistory(): LiveData<List<EntityHistory>>
 }

@@ -110,10 +110,10 @@ class ResultDiagnosisActivity : AppCompatActivity() {
                     }
 
                     val c = Calendar.getInstance()
-                    val sdf = SimpleDateFormat("yyy-MM-dd")
+                    val sdf = SimpleDateFormat("yyy-MM-dd HH:mm")
 
                     val entityHistory = EntityHistory(
-                        -1,
+                        0,
                         sdf.format(c.time),
                         symptoms.toString(),
                         dataDisease.name,
